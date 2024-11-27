@@ -1,1 +1,1 @@
-worker:python fluffcoin_bot.py 
+web: python fluffcoin_bot.py
