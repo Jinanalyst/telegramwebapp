@@ -1,9 +1,8 @@
 import os
 import logging
 import sqlite3
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboard,CallbackQuery
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters
-from telegram import Update, CallbackQuery
 async def check_balance(update: Update, context: CallbackQuery):
     # Your code here
 # Set up logging
