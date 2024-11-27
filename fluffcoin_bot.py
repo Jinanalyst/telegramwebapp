@@ -125,7 +125,7 @@ async def handle_referral(update: Update, context):
 # Main function to set up the bot
 def main():
     # Replace with your bot token
-    bot_token = "YOUR_BOT_TOKEN"
+    bot_token = "7640518096:AAFnHfWDIp7SoVsHRr4G1nEALbdWciJBwS0"
 
     # Create the Application and pass it your bot's token
     application = Application.builder().token(bot_token).build()
