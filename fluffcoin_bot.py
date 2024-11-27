@@ -60,7 +60,6 @@ async def start(update: Update, context):
 
     referral_link = generate_referral_link(user_id)
 
-    # Create the keyboard for the bot
     keyboard = [
         [InlineKeyboardButton("Go to Fluffcoin Web App", url="https://fluffcoinwebapp.opinionomics.co.kr")],
         [InlineKeyboardButton("Check Referral Balance", callback_data="check_balance")],
@@ -68,15 +67,17 @@ async def start(update: Update, context):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Send the message with referral details and buttons
     welcome_message = (
         f"Welcome! Here’s your referral link:\n{referral_link}\n\n"
         f"💰 **Referral Program:**\nIf you refer 1 person, you earn 10 Fluffcoins.\n\n"
         f"🏆 **Web App Task Completion:**\nComplete tasks on the web app to earn 500 Ope tokens."
     )
-    
-    await update.message.reply_text(welcome_message, reply_markup=reply_markup)
 
+    # Log to check if the keyboard is being created
+    logger.info("Sending welcome message with inline keyboard")
+
+    await update.message.reply_text(welcome_message, reply_markup=reply_markup)
+    
 # Command to check referral balance
 async def check_balance(update: Update, context: CallbackQuery):
     user_id = update.callback_query.from_user.id
