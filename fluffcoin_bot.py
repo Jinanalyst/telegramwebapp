@@ -13,15 +13,18 @@ DATABASE = "referral_system.db"
 
 # Initialize the database
 def init_db():
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS referrals (
-                        user_id INTEGER PRIMARY KEY,
-                        referred_by INTEGER,
-                        referral_count INTEGER DEFAULT 0,
-                        fluff_balance INTEGER DEFAULT 0)''')
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS referrals (
+                            user_id INTEGER PRIMARY KEY,
+                            referred_by INTEGER,
+                            referral_count INTEGER DEFAULT 0,
+                            fluff_balance INTEGER DEFAULT 0)''')
+        conn.commit()
+        conn.close()
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
 
 # Adding a user to the database
 def add_user(user_id, referred_by=None):
@@ -60,7 +63,7 @@ def get_referral_balance(user_id):
 
 # Generate referral link
 def generate_referral_link(user_id):
-    return f"https://t.me/YOUR_BOT_USERNAME?start={user_id}"
+    return f"https://t.me/YOUR_BOT_USERNAME?start={user_id}"  # Replace YOUR_BOT_USERNAME with your bot's username
 
 # Command to start the bot and send the referral link
 async def start(update: Update, context):
@@ -81,22 +84,23 @@ async def start(update: Update, context):
         f"💰 **Referral Program:**\nIf you refer 1 person, you earn 10 Fluffcoins.\n\n"
         f"🏆 **Web App Task Completion:**\nComplete tasks on the web app to earn 500 Ope tokens."
     )
-
+    
     await update.message.reply_text(welcome_message, reply_markup=reply_markup)
 
-# Callback to check referral balance
-async def check_balance(update: Update, context):
-    query = update.callback_query
-    user_id = query.from_user.id
+# Command to check referral balance
+async def check_balance(update: Update, context: CallbackQuery):
+    user_id = update.callback_query.from_user.id
+    add_user(user_id)  # Ensure the user exists in the DB
+
     referral_data = get_referral_balance(user_id)
 
     if referral_data:
         referral_count, fluff_balance = referral_data
-        await query.answer()
-        await query.message.reply_text(f"You have referred {referral_count} people and earned {fluff_balance} Fluffcoins.")
+        await update.callback_query.answer()
+        await update.callback_query.message.reply_text(f"You have referred {referral_count} people and earned {fluff_balance} Fluffcoins.")
     else:
-        await query.answer()
-        await query.message.reply_text("No referral data found.")
+        await update.callback_query.answer()
+        await update.callback_query.message.reply_text("No referral data found.")
 
 # Callback to simulate Fluffcoin withdrawal
 async def withdraw(update: Update, context):
@@ -147,7 +151,7 @@ def main():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_referral))
 
     init_db()  # Initialize the database
-    logger.info("Bot is starting...")
+    logger.info("Bot is starting…")
     application.run_polling()
 
 if __name__ == '__main__':
