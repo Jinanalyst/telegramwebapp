@@ -137,7 +137,7 @@ async def handle_referral(update: Update, context):
 
 # Main function to set up the bot
 def main():
-    bot_token = os.getenv("BOT_TOKEN")  # Fetch from environment variables
+    bot_token = os.getenv("7640518096:AAFnHfWDIp7SoVsHRr4G1nEALbdWciJBwS0")  # Fetch from environment variables
 
     if not bot_token:
         logger.error("Bot token is missing. Please set it as an environment variable.")
