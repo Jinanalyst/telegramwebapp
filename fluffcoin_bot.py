@@ -157,3 +157,18 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+import telebot
+
+# Create bot instance with your API key
+bot = telebot.TeleBot("YOUR_BOT_API_KEY")
+
+# Example handler for the '/start' command
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Welcome to Fluffcoin Bot!")
+
+# More handlers or code can go here
+
+# Start polling for updates
+bot.polling()
