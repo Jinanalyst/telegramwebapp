@@ -1,10 +1,10 @@
 import os
 import logging
 import sqlite3
-from telegram import Update, InlineKeyboardButton, InlineKeyboard, CallbackQuery
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters
-async def check_balance(update: Update, context: CallbackQuery):
-    # Your code here
+from telegram import CallbackQuery
+
 # Set up logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -138,7 +138,7 @@ async def handle_referral(update: Update, context):
 
 # Main function to set up the bot
 def main():
-    bot_token = os.getenv("7640518096:AAFnHfWDIp7SoVsHRr4G1nEALbdWciJBwS0")  # Fetch from environment variables
+    bot_token = os.getenv("BOT_TOKEN")  # Fetch from environment variables
 
     if not bot_token:
         logger.error("Bot token is missing. Please set it as an environment variable.")
