@@ -161,7 +161,7 @@ if __name__ == '__main__':
 import telebot
 
 # Create bot instance with your API key
-bot = telebot.TeleBot("YOUR_BOT_API_KEY")
+bot = telebot.TeleBot("7640518096:AAFnHfWDIp7SoVsHRr4G1nEALbdWciJBwS0")
 
 # Example handler for the '/start' command
 @bot.message_handler(commands=['start'])
